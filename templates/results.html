@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="container pt-7">
+        <div class="row">
+
+        <h1>Prediction Results</h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">No</th>
+                <th scope="col">Date</th>
+                <th scope="col">House Age</th>
+                <th scope="col">Station Distance</th>
+                <th scope="col">Convenience Stores</th>
+                    <th scope="col">Latitude</th>
+                    <th scope="col">Longitude</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for data in dataset %}
+                        <tr>
+                        <th scope="row">{{ data.id }}</th>
+                        <td>{{ data.No }}</td>
+                        <td>{{ data.X1_transaction_date }}</td>
+                        <td>{{ data.X2_house_age }}</td>
+                        <td>{{ data.X3_distance_to_the_nearest_MRT_station }}</td>
+                        <td>{{ data.X4_number_of_convenience_stores }}</td>
+                         <td>{{ data.X5_latitude }}</td>
+                         <td>{{ data.X6_longitude }}</td>
+                            <td>{{ data.classification }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

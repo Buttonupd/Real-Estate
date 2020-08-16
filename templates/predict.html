@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block main %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Prediction Results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Prediction Input:</h5>
+                <div>No: <span id="Nl"></span></div>
+                <div>X1 transaction date: <span id="td"></span></div>
+                <div>X2 house age: <span id="ha"></span></div>
+                <div>X3 distance to the nearest MRT station: <span id="mrt"></span></div>
+                <div>X4 number of convenience stores: <span id="stores"></span></div>
+                <div>X5 latitude: <span id="lat"></span></div>
+                <div>X6 longitude: <span id="lon"></span></div>
+                <h5 class="pt-3">Prediction Classification:</h5>
+                <div id="prediction"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a class="btn btn-primary" href="/results" role="button">View DB</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <h1>Estate Prediction</h1>
+            <form action="" id="post-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="no">No</label>
+                    <input type="number" step="0.1" class="form-control" id="no" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="X1_transaction_date">X1 transaction date</label>
+                    <input type="number" step="0.1" class="form-control" id="X1_transaction_date" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="X2_house_age">X2 house age</label>
+                    <input type="number" step="0.1" class="form-control" id="X2_house_age" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="X3_distance_to_the_nearest_MRT_station">X3 distance to the nearest MRT station"</label>
+                    <input type="number" step="0.1" class="form-control" id="X3_distance_to_the_nearest_MRT_station" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="X4_number_of_convenience_stores">X4 number of convenience stores</label>
+                    <input type="number" step="0.1" class="form-control" id="X4_number_of_convenience_stores" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="X5_latitude">X5 latitude</label>
+                    <input type="number" step="0.1" class="form-control" id="X5_latitude" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="X6_longitude">X6 longitude</label>
+                    <input type="number" step="0.1" class="form-control" id="X6_longitude" placeholder="" required>
+                </div>
+                <button type="submit" value="Submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('submit', '#post-form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "predict:submit_prediction" %}',
+            data:{
+                No:$('#No').val(),
+                X1_transaction_date:$('#X1_transaction_date').val(),
+                X2_house_age:$('#X2_house_age').val(),
+                X3_distance_to_the_nearest_MRT_station:$('#X3_distance_to_the_nearest_MRT_station').val(),
+                X4_number_of_convenience_stores:$('#X4_number_of_convenience_stores').val(),
+                X5_latitude:$('#X5_latitude').val(),
+                X6_longitude:$('#X6_longitude').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success:function(json) {
+                document.forms["post-form"].reset();
+                document.getElementById("prediction").innerHTML = json['result']
+                document.getElementById("N1").innerHTML = json['No']
+                document.getElementById("td").innerHTML = json['X1_transaction_date']
+                document.getElementById("ha").innerHTML = json['X2_house_age']
+                document.getElementById("mrt").innerHTML = json['X3_distance_to_the_nearest_MRT_station']
+                document.getElementById("stores").innerHTML = json['X4_number_of_convenience_stores']
+                document.getElementById("lat").innerHTML = json['X5_latitude']
+                document.getElementById("lon").innerHTML = json['X5_longitude']
+            },
+            error : function(xhr,errmsg,err) {
+
+            }
+        });
+    })
+</script>
+
+{% endblock %}
