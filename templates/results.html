@@ -7,16 +7,18 @@
         <h1>Prediction Results</h1>
 
             <table class="table">
-                <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">No</th>
-                <th scope="col">Date</th>
-                <th scope="col">House Age</th>
-                <th scope="col">Station Distance</th>
-                <th scope="col">Convenience Stores</th>
+                    <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">House Age</th>
+                    <th scope="col">Station Distance</th>
+                    <th scope="col">Convenience Stores</th>
                     <th scope="col">Latitude</th>
                     <th scope="col">Longitude</th>
+                        <th scope="col">Unit Area</th>
+                        <th scope="col">Prediction</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,7 +32,8 @@
                         <td>{{ data.X4_number_of_convenience_stores }}</td>
                          <td>{{ data.X5_latitude }}</td>
                          <td>{{ data.X6_longitude }}</td>
-                            <td>{{ data.classification }}</td>
+                            <td>{{ data.Y_house_price_of_unit_area }}</td>
+                            <td>{{ data.predictions }}</td>
                     </tr>
                 {% endfor %}
 

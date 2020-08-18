@@ -1,0 +1,24 @@
+
+from django.db import models
+
+
+class PredResults(models.Model):
+
+    objects = []
+    X1 = models.FloatField()
+    X1 = models.FloatField()
+    X2 = models.FloatField()
+    X3 = models.FloatField(default=True)
+    X4 = models.FloatField()
+    X5 = models.FloatField()
+    X6 = models.FloatField()
+    X7 = models.FloatField()
+    X8 = models.FloatField(default=False)
+    Y1 = models.FloatField(default=False)
+    Y2 = models.FloatField(default=False)
+    Y = models.FloatField(default=True)
+
+    predictions = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.predictions

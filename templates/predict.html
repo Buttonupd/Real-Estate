@@ -13,15 +13,16 @@
             </div>
             <div class="modal-body">
                 <h5>Prediction Input:</h5>
-                <div>No: <span id="Nl"></span></div>
+                <div>No: <span id="nl"></span></div>
                 <div>X1 transaction date: <span id="td"></span></div>
                 <div>X2 house age: <span id="ha"></span></div>
                 <div>X3 distance to the nearest MRT station: <span id="mrt"></span></div>
                 <div>X4 number of convenience stores: <span id="stores"></span></div>
                 <div>X5 latitude: <span id="lat"></span></div>
                 <div>X6 longitude: <span id="lon"></span></div>
-                <h5 class="pt-3">Prediction Classification:</h5>
-                <div id="prediction"></div>
+                <div>Y house price of unit area: <span id="unit"></span></div>
+                <h5 class="pt-3">Prediction:</h5>
+                <div id="predictions"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -65,6 +66,10 @@
                     <label for="X6_longitude">X6 longitude</label>
                     <input type="number" step="0.1" class="form-control" id="X6_longitude" placeholder="" required>
                 </div>
+<!--                 <div class="form-group">-->
+<!--                    <label for="Y_house_price_of_unit_area">Y house price of unit area</label>-->
+<!--                    <input type="number" step="0.1" class="form-control" id="Y_house_price_of_unit_area" placeholder="" required>-->
+<!--                </div>-->
                 <button type="submit" value="Submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
             </form>
         </div>
@@ -85,19 +90,21 @@
                 X4_number_of_convenience_stores:$('#X4_number_of_convenience_stores').val(),
                 X5_latitude:$('#X5_latitude').val(),
                 X6_longitude:$('#X6_longitude').val(),
+                Y_house_price_of_unit_area:$('#Y_house_price_of_unit_area').val()
                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                 action: 'post'
             },
             success:function(json) {
                 document.forms["post-form"].reset();
                 document.getElementById("prediction").innerHTML = json['result']
-                document.getElementById("N1").innerHTML = json['No']
+                document.getElementById("n1").innerHTML = json['No']
                 document.getElementById("td").innerHTML = json['X1_transaction_date']
                 document.getElementById("ha").innerHTML = json['X2_house_age']
                 document.getElementById("mrt").innerHTML = json['X3_distance_to_the_nearest_MRT_station']
                 document.getElementById("stores").innerHTML = json['X4_number_of_convenience_stores']
                 document.getElementById("lat").innerHTML = json['X5_latitude']
-                document.getElementById("lon").innerHTML = json['X5_longitude']
+                document.getElementById("lon").innerHTML = json['X6_longitude']
+                document.getElementById("unit").innerHTML = json['Y_house_price_of_unit_area']
             },
             error : function(xhr,errmsg,err) {
 
